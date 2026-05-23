@@ -58,3 +58,20 @@ app.get("/api/books/:id", async (req, res) => {
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
+
+app.pacht("/api/books/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const upadates = req.body;
+    const options = { new: true, runValidators: true };
+
+
+    const updateBook = await Book.findByIdAndUpdate(id, updates, options);
+    if (!updateBook)
+      return res.status(404).json({ error: "Livro não encontrado "});
+
+    res.json(updateBook);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao atualizar livro "});
+  }
+});
