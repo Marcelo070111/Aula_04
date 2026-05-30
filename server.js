@@ -3,6 +3,13 @@ const app = express();
 const connectDB = require("./config/config");
 const Book = require("./models/book");
 connectDB();
+
+const bookControlers = require('../middleware/bookControlers');
+router.post("/book", validateTitle, bookControlers.createBook);
+
+const bookRoutes = require('./routes/bookRoutes');
+app.use('/api', bookRoutes);
+
 app.use(express.json());
 app.listen(3000, () => console.log("Server running on port 3000"));
 
@@ -20,6 +27,11 @@ app.get("/divide", (req, res) => {
     } catch (err) {
         res.status(400).json({error: err.message });
     }
+})
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "ocorreu um erro no servidor."});
 })
 
 app.post("/api/books", async (req, res) => {
