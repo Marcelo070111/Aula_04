@@ -7,7 +7,12 @@ connectDB();
 const bookControlers = require('../middleware/bookControlers');
 router.post("/book", validateTitle, bookControlers.createBook);
 
+const swaggarUi = require(`swagger-ui-express`);
+const swaggerDocument = require(`./docs/swagger.json`);
+app.use(`/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 const bookRoutes = require('./routes/bookRoutes');
+const validateTitle = require("./middleware/validateTitle");
 app.use('/api', bookRoutes);
 
 app.use(express.json());
@@ -34,7 +39,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "ocorreu um erro no servidor."});
 })
 
-app.post("/api/books", async (req, res) => {
+app.post("/api/books", validateTitle, async (req, res) => {
  try {
    const { title, author, year, genre } = req.body;
    const newBook = new Book({ title, author, year, genre });
