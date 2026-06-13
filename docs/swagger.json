@@ -47,6 +47,67 @@
                 "description": "Erro interno do servidor"
             }
         }
-    }
+    },
+    "get": {
+        "summary":"Lstar todos os livros",
+        "description": "Obtém uma lista de todos os livros disponíveis na biblioteca digital.",
+       "parameters": [
+         {
+           "name": "title",
+           "in": "query",
+           "description": "Filtrar por título do livro",
+           "required": false,
+           "type": "string"
+         },
+         {
+           "name": "author",
+           "in": "query",
+           "description": "Filtrar por autor do livro",
+           "required": false,
+           "type": "string"
+         },
+         {
+           "name": "pageNumber",
+           "in": "query",
+           "description": "Número da página a ser retornada",
+           "required": false,
+           "type": "integer"
+         },
+         {
+           "name": "pageSize",
+           "in": "query",
+           "description": "Quantidade de resultados por página",
+           "required": false,
+           "type": "integer"
+         }
+       ],
+       "responses": {
+         "200": {
+           "description": "Lista de livros recuperada com sucesso",
+           "schema": {
+             "type": "array",
+             "items": {
+               "type": "object",
+               "properties": {
+                 "id": {
+                   "type": "string",
+                   "example": "63dcb0f6e78a1d001f2f6275"
+                 },
+                 "title": {
+                   "type": "string",
+                   "example": "O Senhor dos Anéis"
+                 },
+                 "author": { "type": "string", "example": "J.R.R. Tolkien" },
+                 "year": { "type": "integer", "example": 1954 },
+                 "genre": { "type": "string", "example": "Fantasia" }
+               }
+             }
+           }
+         },
+         "500": {
+           "description": "Erro interno do servidor"
+         }
+       }
+     }
  }
 }
